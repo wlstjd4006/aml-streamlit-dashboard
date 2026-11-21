@@ -1,0 +1,12 @@
+# Python 3.12 권장, Streamlit Community Cloud 배포에도 사용
+streamlit>=1.35,<2
+requests>=2.31,<3
+pandas>=2.2,<3
+reportlab>=4.2,<5
+# C 담당자의 원본 LangGraph STR 모듈 (OPENAI_API_KEY 설정 시 실행)
+langgraph==1.2.16
+langchain==1.4.6
+langchain-core==1.6.12
+langchain-openai==1.7.2
+openai==3.35.1
+pydantic==2.14.1
