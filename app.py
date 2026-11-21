@@ -1,9 +1,3 @@
-"""[1/4] AML 대시보드: 조회 → 관계망 → STR 보고서.
-
-처음 읽을 때는 아래 '1. 설정'부터 '5. 보고서'까지 순서대로 살펴보세요.
-실제 API 요청은 api.py, 보고서 생성·PDF 변환은 reporting.py에 분리했습니다.
-실행: python -m streamlit run app.py
-"""
 import json
 from datetime import date
 from html import escape
@@ -16,7 +10,6 @@ from api import get_alerts, get_graph
 from reporting import create_report, report_ready, to_pdf
 
 
-# ─── 1. 화면 설정 · CSS: 원본 프로토타입의 색상/배치만 재현 ───────────────
 st.set_page_config(page_title="FraudGT | AML 거래 모니터링", page_icon="🔎", layout="wide")
 st.markdown("""
 <style>
