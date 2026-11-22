@@ -72,7 +72,7 @@ def create_report(alert: dict, graph_response: dict) -> str:
     from str_report import generate_str_report
 
     # 3. 실제 AI 보고서 생성
-    result = generate_str_report(payload)
+    result = generate_str_report(payload, max_rewrites=2)
 
     # 4. 보고서 검증 결과 확인
     if (
