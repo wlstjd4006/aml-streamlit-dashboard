@@ -73,7 +73,7 @@ if submitted:
         st.error("시작일은 종료일보다 늦을 수 없습니다.")
     else:
         try:
-            with st.spinner("Mock Alerts API에서 거래를 조회하는 중..."):
+            with st.spinner("API에서 거래를 조회하는 중..."):
                 st.session_state["alerts"] = load_alerts(start_day, end_day)
             st.session_state.pop("selected_tx", None)
             st.session_state.pop("report_md", None)

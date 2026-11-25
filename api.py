@@ -25,6 +25,11 @@ EXPLANATION_URL = os.getenv(
     "FRAUDGT_EXPLANATION_URL", "https://fraudgt-explanation-api.onrender.com"
 ).rstrip("/")
 
+# 동일한 모델을 사용하는 두 API의 버전 이름 매핑
+MODEL_VERSION_MAP = {
+    "fraudgt-two-head-fbeb06e2-825a38b0d255": "fraudgt-two-head-v1"
+}
+
 # 기간 조회에서 이미 받은 거래 정보는 다시 API에 요청하지 않는다.
 _known_transactions = {}
 _cache_lock = Lock()
@@ -161,11 +166,28 @@ def get_graph(transaction_id: str) -> dict:
         raise RuntimeError("Results API에서 선택 거래의 상세 정보를 조회할 수 없습니다.")
     if target.get("is_alert") is not True:
         raise RuntimeError("XAI는 is_alert=True인 거래에 대해서만 실행합니다.")
-    model_version = target.get("model_version")
-    if not isinstance(model_version, str) or not model_version:
+    
+    # Results API에서 받은 모델 버전
+    results_version = target.get("model_version")
+
+    if not isinstance(results_version, str) or not results_version:
         raise RuntimeError("Results API에서 모델 버전을 받지 못했습니다.")
 
-    explanation = _wait_for_explanation(transaction_id, model_version)
+    # Results 버전 → Explanation 버전 변환
+    explanation_version = MODEL_VERSION_MAP.get(results_version)
+
+    if explanation_version is None:
+        raise RuntimeError(
+            f"Explanation API에 매핑되지 않은 모델 버전입니다: {results_version}"
+        )
+
+    # 변환된 버전을 사용해 XAI 설명 요청 및 조회
+    explanation = _wait_for_explanation(
+        transaction_id,
+        explanation_version
+    )
+
+    
     snapshot = explanation.get("graph_snapshot")
     if not isinstance(snapshot, dict) or not isinstance(snapshot.get("edge_transaction_ids"), list):
         raise RuntimeError("Explanation의 graph_snapshot.edge_transaction_ids를 찾을 수 없습니다.")
