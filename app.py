@@ -62,9 +62,9 @@ st.markdown('<div class="hero">이상거래 탐지 현황</div>', unsafe_allow_h
 with st.form("date_form"):
     a, b, c = st.columns([1.1, 1.1, 1.3], vertical_alignment="bottom")
     with a:
-        start_day = st.date_input("시작일 (UTC)", date(2022, 10, 24))
+        start_day = st.date_input("시작일", date(2023, 8, 23))
     with b:
-        end_day = st.date_input("종료일 (UTC, 포함)", date(2022, 11, 3))
+        end_day = st.date_input("종료일", date(2023, 8, 24))
     with c:
         submitted = st.form_submit_button("🔎 거래 조회", type="primary", use_container_width=True)
 
@@ -86,7 +86,7 @@ if alerts is None:
     st.info("기간을 선택하고 **거래 조회** 버튼을 눌러 주세요.")
     st.stop()
 if not alerts:
-    st.warning("선택한 기간에 탐지된 거래가 없습니다. 2022년 10월 24일~11월 3일을 조회해 보세요.")
+    st.warning("선택한 기간에 탐지된 거래가 없습니다. 2023년 7월 5일~8월 24일을 조회해 보세요.")
     st.stop()
 
 # 목록 조회 응답에는 거래 금액, 계좌, 위험 점수 등이 포함됩니다.
